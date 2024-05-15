@@ -478,6 +478,37 @@
     </pluginManagement>
     
     <plugins>
+        <plugin>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-channel-maven-plugin</artifactId>
+            <version>1.0.13</version>
+            <executions>
+                <execution>
+                    <id>verify-dependencies-execution</id>
+                    <goals>
+                        <!-- The verify-dependencies goal will check that project dependencies versions are matching specified manifest. -->
+                        <goal>verify-dependencies</goal>
+                    </goals>
+                    <phase>prepare-package</phase>
+                </execution>
+            </executions>
+            <configuration>
+                <!-- One of the manifestGAV or manifestFile must be given: -->
+                <manifestGAV>org.jboss.eap.channels:eap-xp-5.0</manifestGAV>
+                <!--<manifestFile>path/to/manifest.yaml</manifestFile>-->
+
+                <!-- Optional: Repositories where the manifest should be looked up, if manifestGAV is given above. -->
+                <remoteRepositories>
+                    <remoteRepository>https://download.eng.brq.redhat.com/brewroot/repos/jb-eap-8.0-maven-build/latest/maven</remoteRepository>
+                </remoteRepositories>
+
+                <!-- Optional: Should certain artifacts be ignored from the verification? -->
+                <ignoreStreams>
+                    <ignoreStream>org.apache.maven:maven-model</ignoreStream>
+                    <ignoreStream>org.apache.maven:maven-artifact</ignoreStream>
+                </ignoreStreams>
+            </configuration>
+        </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
